@@ -451,6 +451,7 @@
       "icon": "B",
       "description": "Guided breathing exercises for stress relief.",
       "search_term": "Breathwrk breathing exercises",
+      "app_store_id": 1481804500,
       "is_ios": true
     },
     {
@@ -598,6 +599,7 @@
       "icon": "H",
       "description": "Discover and book unique camping experiences.",
       "search_term": "Hipcamp camping",
+      "app_store_id": 1440066037,
       "is_ios": true
     },
     {
