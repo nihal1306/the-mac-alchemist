@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mac Alchemist | Transforming Chaos Into Productivity (Maybe)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FFF8E7;
+            --charcoal: #1a1a1a;
+            --accent-gold: #D4AF37;
+            --accent-teal: #2C8C99;
+            --warm-gray: #4A4A4A;
+            --light-gray: #E8E4DC;
+            --serif: 'Libre Baskerville', serif;
+            --mono: 'IBM Plex Mono', monospace;
+            --sans: 'Work Sans', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Corner decorations */
+        .corner-decor {
+            position: fixed;
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--accent-gold);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .corner-decor.top-left    { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .corner-decor.top-right   { top: 0; right: 0; border-left: none; border-bottom: none; }
+        .corner-decor.bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
+        .corner-decor.bottom-right{ bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        /* Header */
+        header {
+            position: relative;
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-gold);
+            overflow: hidden;
+        }
+
+        .logo {
+            position: fixed;
+            top: 20px; left: 20px;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-gold);
+            z-index: 1000;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: var(--charcoal);
+            padding: 5px;
+        }
+        .logo:hover { transform: scale(1.05); }
+
+        .header-badge {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            animation: fadeInDown 0.8s ease-out 0.2s backwards;
+        }
+
+        h1 {
+            font-family: var(--serif);
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .subtitle {
+            font-family: var(--mono);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--light-gray);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+            white-space: nowrap;
+        }
+
+        .tagline {
+            font-family: var(--sans);
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--accent-teal);
+            animation: fadeInUp 0.8s ease-out 0.8s backwards;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--light-gray);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--warm-gray);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--charcoal);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        nav a:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        /* Container */
+        .container { max-width: 1400px; margin: 0 auto; padding: 4rem 2rem; }
+
+        /* Section Headers */
+        .section-header { text-align: center; margin-bottom: 3rem; position: relative; }
+
+        .section-header h2 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 60%; height: 3px;
+            background: var(--accent-gold);
+        }
+
+        .section-header p {
+            font-style: italic;
+            color: var(--warm-gray);
+            margin-top: 1.5rem;
+        }
+
+        /* About Section */
+        .about-section {
+            background: white;
+            padding: 3rem;
+            border: 3px solid var(--charcoal);
+            box-shadow: 12px 12px 0 var(--accent-teal);
+            margin-bottom: 4rem;
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .about-badge {
+            background: var(--accent-gold);
+            color: var(--charcoal);
+            padding: 2rem;
+            text-align: center;
+            border: 3px solid var(--charcoal);
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .about-badge h3 { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 1rem; }
+        .about-badge .formula { font-family: var(--mono); font-size: 0.9rem; line-height: 1.8; }
+
+        .about-text { max-width: 800px; }
+        .about-text p { margin-bottom: 1rem; font-size: 1.05rem; }
+        .about-text p:first-child { font-size: 1.2rem; font-weight: 500; }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .blog-card {
+            background: white;
+            border: 3px solid var(--charcoal);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--accent-teal);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover::before { transform: scaleX(1); }
+        .blog-card:hover { transform: translateY(-5px); box-shadow: 8px 8px 0 var(--accent-gold); }
+
+        .blog-meta {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--warm-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .blog-card h3 { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.3; }
+        .blog-card h3 a { color: var(--charcoal); text-decoration: none; transition: color 0.3s ease; }
+        .blog-card h3 a:hover { color: var(--accent-teal); }
+
+        .blog-excerpt { color: var(--warm-gray); font-size: 0.95rem; margin-bottom: 1rem; font-style: italic; }
+
+        .read-more {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+        .read-more:hover { color: var(--accent-teal); border-color: var(--accent-teal); }
+
+        /* Settings Section */
+        .settings-section { margin-bottom: 4rem; }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .setting-card {
+            background: white;
+            border: 3px solid var(--charcoal);
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .setting-card:hover { transform: translateY(-3px); box-shadow: 6px 6px 0 var(--accent-teal); }
+
+        .setting-number {
+            position: absolute;
+            top: -15px; left: 20px;
+            background: var(--accent-teal);
+            color: white;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-weight: bold;
+            border: 3px solid var(--charcoal);
+        }
+
+        .setting-card h3 { font-family: var(--serif); font-size: 1.3rem; margin-bottom: 0.75rem; padding-top: 1rem; }
+        .setting-card h3 a { color: var(--charcoal); text-decoration: none; transition: color 0.3s ease; }
+        .setting-card h3 a:hover { color: var(--accent-teal); }
+        .setting-card p { color: var(--warm-gray); font-size: 0.95rem; line-height: 1.6; }
+
+        /* Apps Section */
+        .apps-section {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 4rem 2rem;
+            margin: 4rem -2rem 4rem -2rem;
+            border-top: 4px solid var(--accent-gold);
+            border-bottom: 4px solid var(--accent-gold);
+        }
+
+        .apps-container { max-width: 1400px; margin: 0 auto; }
+
+        .apps-intro { text-align: center; margin-bottom: 3rem; }
+
+        .apps-intro h2 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        .apps-intro p {
+            color: var(--light-gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Search and Filter */
+        .apps-controls { margin-bottom: 3rem; }
+
+        .search-bar { max-width: 600px; margin: 0 auto 2rem; position: relative; }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            font-family: var(--sans);
+            font-size: 1rem;
+            border: 3px solid var(--accent-gold);
+            background: rgba(255, 248, 231, 0.1);
+            color: var(--cream);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            background: rgba(255, 248, 231, 0.15);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+        }
+
+        .search-bar input::placeholder { color: var(--light-gray); opacity: 0.7; }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem; top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
+
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--accent-gold);
+            background: transparent;
+            color: var(--cream);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-gold);
+            color: var(--charcoal);
+            transform: translateY(-2px);
+        }
+
+        .filter-count {
+            font-family: var(--sans);
+            text-align: center;
+            color: var(--light-gray);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* App Cards */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .app-card {
+            background: rgba(255, 248, 231, 0.05);
+            border: 2px solid var(--accent-gold);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+            border-color: var(--accent-teal);
+        }
+
+        .app-card.hidden { display: none; }
+
+        /* App Icon — supports both real images and letter fallbacks */
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            border-radius: 14px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .app-icon img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            border-radius: 14px;
+            display: block;
+        }
+
+        .icon-letter {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .app-info { flex: 1; }
+
+        .app-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            gap: 0.5rem;
+        }
+
+        .app-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; margin: 0; }
+
+        .app-title a {
+            color: var(--cream);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .app-title a:hover { color: var(--accent-gold); }
+
+        .app-pricing {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            padding: 0.25rem 0.55rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .app-pricing.free         { background: #10b981; color: white; }
+        .app-pricing.paid         { background: #3b82f6; color: white; }
+        .app-pricing.subscription { background: #8b5cf6; color: white; }
+        .app-pricing.setapp       { background: #f59e0b; color: white; }
+
+        .app-description {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .app-category-tag {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .no-results { text-align: center; padding: 4rem 2rem; color: var(--light-gray); }
+        .no-results h3 { font-family: var(--serif); font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 1rem; }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        .footer-content { max-width: 600px; margin: 0 auto; }
+        .footer-content p { margin-bottom: 1rem; font-style: italic; }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover { color: var(--accent-teal); }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .corner-decor { width: 60px; height: 60px; }
+            .apps-section { margin-left: -1rem; margin-right: -1rem; }
+            nav { gap: 1rem; }
+            .logo { width: 60px; height: 60px; top: 15px; left: 15px; }
+            .subtitle { white-space: normal; }
+            .apps-grid { grid-template-columns: 1fr; }
+            .category-filters { gap: 0.5rem; }
+            .filter-btn { font-size: 0.75rem; padding: 0.5rem 0.8rem; }
+        }
+    </style>
+</head>
+<body id="top">
+
+    <div class="corner-decor top-left"></div>
+    <div class="corner-decor top-right"></div>
+    <div class="corner-decor bottom-left"></div>
+    <div class="corner-decor bottom-right"></div>
+
+    <!-- Header -->
+    <header>
+        <a href="#top"><img src="mac-alchemist-logo.jpg" alt="The Mac Alchemist Logo" class="logo"></a>
+        <div class="header-badge">Est. 2025 • Seattle, WA</div>
+        <h1>The Mac Alchemist</h1>
+        <p class="subtitle">Transforming Mac Chaos Into Productivity (Results May Vary)</p>
+        <p class="tagline">"Where I spend hours researching productivity apps instead of actually being productive"</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#about">About the Lab</a>
+        <a href="#blog">Recent Experiments</a>
+        <a href="#settings">Essential Settings</a>
+        <a href="#apps">Curated Apps</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="about-content">
+                <div class="about-badge">
+                    <h3>The Formula</h3>
+                    <div class="formula">
+                        Self-Deprecation<br>
+                        + Genuine Testing<br>
+                        + Mac Optimization<br>
+                        + Terrible Decisions<br>
+                        = This Blog
+                    </div>
+                </div>
+                <div class="about-text">
+                    <p>Hi, I'm Nihal. I write about Mac productivity: the workflows, the automations, the hidden settings, and occasionally the apps that tie it all together. The goal is saving you time. The reality is I spend way too much of mine optimizing things that were probably fine to begin with.</p>
+                    <p>What makes this different from every other Mac blog? I actually admit when I'm wrong. Like that time I wrote a 2,000-word defense of Alfred and then switched to Raycast two weeks later. Or when I thought I needed 240 apps from SetApp (spoiler: I didn't).</p>
+                    <p>You'll find honest reviews, practical workflows, and the kind of self-aware commentary that comes from someone who spent three hours automating a task that takes five minutes manually.</p>
+                    <p><strong>Current Status:</strong> Writer for The Mac Alchemist and Mac O'Clock publications on Medium and probably over-engineering my Downloads folder as we speak.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog">
+            <div class="section-header">
+                <h2>Recent Experiments</h2>
+                <p>Where I document my journey through the Mac productivity rabbit hole</p>
+            </div>
+
+            <div class="blog-grid">
+<!-- INJECT:BLOG_POSTS -->
+                <article class="blog-card">
+                    <div class="blog-meta">Launcher Wars</div>
+                    <h3><a href="https://medium.com/the-mac-alchemist/alfred-vs-raycast-the-ultimate-launcher-face-off-855dc0afec89" target="_blank">Alfred vs Raycast: The Ultimate Launcher Face-Off</a></h3>
+                    <p class="blog-excerpt">The comparison that started it all (before I admitted defeat)</p>
+                    <a href="https://medium.com/the-mac-alchemist/alfred-vs-raycast-the-ultimate-launcher-face-off-855dc0afec89" target="_blank" class="read-more">Read on Medium →</a>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-meta">Mac O'Clock Featured</div>
+                    <h3><a href="https://medium.com/macoclock/raycast-vs-spotlight-the-ultimate-launcher-showdown-61b77b50097d" target="_blank">Raycast vs Spotlight: The Ultimate Launcher Showdown</a></h3>
+                    <p class="blog-excerpt">Because apparently I have strong opinions about launcher apps</p>
+                    <a href="https://medium.com/macoclock/raycast-vs-spotlight-the-ultimate-launcher-showdown-61b77b50097d" target="_blank" class="read-more">Read on Medium →</a>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-meta">Featured • Raycast</div>
+                    <h3><a href="https://medium.com/the-mac-alchemist/my-favorite-raycast-extensions-yes-i-switched-from-alfred-b29624b123d3" target="_blank">My Favorite Raycast Extensions (Yes, I Switched from Alfred)</a></h3>
+                    <p class="blog-excerpt">The apps-within-an-app I use every single day</p>
+                    <a href="https://medium.com/the-mac-alchemist/my-favorite-raycast-extensions-yes-i-switched-from-alfred-b29624b123d3" target="_blank" class="read-more">Read on Medium →</a>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-meta">Mac O'Clock Featured</div>
+                    <h3><a href="https://medium.com/macoclock/forget-productivity-make-your-mac-more-fun-with-these-5-apps-b6cb05618d43" target="_blank">Forget Productivity—Make Your Mac More Fun With These 5 Apps</a></h3>
+                    <p class="blog-excerpt">Because life's too short for boring software</p>
+                    <a href="https://medium.com/macoclock/forget-productivity-make-your-mac-more-fun-with-these-5-apps-b6cb05618d43" target="_blank" class="read-more">Read on Medium →</a>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-meta">App Reviews</div>
+                    <h3><a href="https://medium.com/the-mac-alchemist/ten-mac-apps-i-cant-live-without-and-why-you-shouldn-t-either-e29fbea3112a" target="_blank">Ten Mac Apps I Can't Live Without</a></h3>
+                    <p class="blog-excerpt">The essential apps that earned their spot in my dock</p>
+                    <a href="https://medium.com/the-mac-alchemist/ten-mac-apps-i-cant-live-without-and-why-you-shouldn-t-either-e29fbea3112a" target="_blank" class="read-more">Read on Medium →</a>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-meta">AI Tools</div>
+                    <h3><a href="https://medium.com/the-mac-alchemist/i-finally-tried-running-ai-on-my-laptop-and-didnt-break-anything-787063d05c9c" target="_blank">I Finally Tried Running AI on My Laptop</a></h3>
+                    <p class="blog-excerpt">A surprisingly simple guide to local AI with LM Studio</p>
+                    <a href="https://medium.com/the-mac-alchemist/i-finally-tried-running-ai-on-my-laptop-and-didnt-break-anything-787063d05c9c" target="_blank" class="read-more">Read on Medium →</a>
+                </article>
+<!-- /INJECT:BLOG_POSTS -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Featured Guides Section -->
+    <div class="container">
+        <section id="settings" class="settings-section">
+            <div class="section-header">
+                <h2>Essential Mac Guides</h2>
+                <p>Deep dives into Mac settings and automation that actually matter</p>
+            </div>
+
+            <div class="settings-grid">
+<!-- INJECT:FEATURED_GUIDES -->
+                <div class="setting-card">
+                    <div class="setting-number">1</div>
+                    <h3><a href="https://medium.com/macoclock/transform-your-chaotic-downloads-folder-into-a-self-organizing-system-d618c0232597" target="_blank">Transform Your Chaotic Downloads Folder Into a Self-Organizing System</a></h3>
+                    <p>Stop manually sorting your Downloads. Learn how to set up Folder Actions that automatically organize files by type.</p>
+                </div>
+                <div class="setting-card">
+                    <div class="setting-number">2</div>
+                    <h3><a href="https://medium.com/macoclock/the-macos-automator-guide-for-people-who-hate-doing-things-twice-4b0bcb82e1e9" target="_blank">The macOS Automator Guide for People Who Hate Doing Things Twice</a></h3>
+                    <p>A complete guide to automating repetitive tasks without writing a single line of code.</p>
+                </div>
+                <div class="setting-card">
+                    <div class="setting-number">3</div>
+                    <h3><a href="https://medium.com/the-mac-alchemist/mac-settings-that-actually-improve-your-daily-workflow-5d1be2470272" target="_blank">Mac Settings That Actually Improve Your Daily Workflow</a></h3>
+                    <p>The hidden macOS settings that make a real difference in how you use your Mac every day.</p>
+                </div>
+                <div class="setting-card">
+                    <div class="setting-number">4</div>
+                    <h3><a href="https://medium.com/the-mac-alchemist/why-your-finder-folders-keep-getting-disorganized-and-how-to-fix-it-forever-bc711dfc47c3" target="_blank">Why Your Finder Folders Keep Getting Disorganized (And How to Fix It Forever)</a></h3>
+                    <p>Discover why macOS keeps changing your folder views and learn the permanent solution.</p>
+                </div>
+                <div class="setting-card">
+                    <div class="setting-number">5</div>
+                    <h3><a href="https://medium.com/the-mac-alchemist/two-iphone-settings-that-will-save-you-from-my-fate-271ef7f725e0" target="_blank">Two iPhone Settings That Will Save You From My Fate</a></h3>
+                    <p>Two quick toggles that could save your sanity (and your data). Learn from my mistakes.</p>
+                </div>
+<!-- /INJECT:FEATURED_GUIDES -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Apps Section -->
+    <section id="apps" class="apps-section">
+        <div class="apps-container">
+            <div class="apps-intro">
+                <h2>The Curated Arsenal</h2>
+                <p>These are the apps I actually use. Not the ones I downloaded once and forgot about. The ones that survived the brutal audit process of "do I actually launch this?"</p>
+            </div>
+
+            <div class="apps-controls">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="appSearch" placeholder="Search apps…" oninput="filterApps()">
+                </div>
+
+                <div class="category-filters">
+<!-- INJECT:FILTER_BUTTONS -->
+                    <button class="filter-btn active" onclick="filterByCategory('all')">All Apps</button>
+                    <button class="filter-btn" onclick="filterByCategory('launchers')">Launchers</button>
+                    <button class="filter-btn" onclick="filterByCategory('productivity')">Productivity</button>
+                    <button class="filter-btn" onclick="filterByCategory('utilities')">Utilities</button>
+                    <button class="filter-btn" onclick="filterByCategory('design')">Design</button>
+                    <button class="filter-btn" onclick="filterByCategory('menubar')">Menu Bar</button>
+                    <button class="filter-btn" onclick="filterByCategory('weather')">Weather</button>
+                    <button class="filter-btn" onclick="filterByCategory('fun')">Fun</button>
+                    <button class="filter-btn" onclick="filterByCategory('health')">Health</button>
+                    <button class="filter-btn" onclick="filterByCategory('reading')">Reading</button>
+                    <button class="filter-btn" onclick="filterByCategory('travel')">Travel</button>
+                    <button class="filter-btn" onclick="filterByCategory('entertainment')">Entertainment</button>
+                    <button class="filter-btn" onclick="filterByCategory('ios')">iOS Apps</button>
+<!-- /INJECT:FILTER_BUTTONS -->
+                </div>
+
+                <div class="filter-count" id="filterCount">Showing 59 apps</div>
+            </div>
+
+            <div class="apps-grid" id="appsGrid">
+<!-- INJECT:APPS_GRID -->
+                <div class="app-card" data-category="launchers" data-name="raycast">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);">R</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.raycast.com/" target="_blank">Raycast</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">My current obsession. Replaced Alfred after much denial.</p>
+                        <span class="app-category-tag">Launchers</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="launchers" data-name="alfred">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);">A</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.alfredapp.com/" target="_blank">Alfred</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Still here for file operations. We have a healthy relationship.</p>
+                        <span class="app-category-tag">Launchers</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="productivity" data-name="noteplan 3">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#0ea5e9,#2563eb);">N</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://noteplan.co/" target="_blank">NotePlan 3</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Where my organized chaos lives in markdown format.</p>
+                        <span class="app-category-tag">Productivity</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="productivity" data-name="things 3">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#0ea5e9,#2563eb);">T</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://culturedcode.com/things/" target="_blank">Things 3</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Beautiful task management that makes to-do lists feel zen.</p>
+                        <span class="app-category-tag">Productivity</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="alcove">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">A</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.alcove.app/" target="_blank">Alcove</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Window management made simple and beautiful.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="notchnook">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">N</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://lo.cafe/notchnook" target="_blank">NotchNook</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Making the MacBook notch actually useful.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="clyde">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">C</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://getclyde.app/" target="_blank">Clyde</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Easy file sharing and cloud storage management.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="display buddy">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">D</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://displaybuddy.app/" target="_blank">Display Buddy</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Control external displays like a pro.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="haze over">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">H</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://hazeover.com/" target="_blank">Haze Over</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Dim background windows to focus on what matters.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="session">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">S</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.stayinsession.com/" target="_blank">Session</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Pomodoro timer that doesn't feel like homework.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="cloudmounter">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">C</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://cloudmounter.net/" target="_blank">CloudMounter</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Mount cloud storage as local drives.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="cleanmymac x">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">C</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://macpaw.com/cleanmymac" target="_blank">CleanMyMac X</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Because my Mac accumulates digital garbage faster than I accumulate productivity apps.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="gemini 2">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">G</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://macpaw.com/gemini" target="_blank">Gemini 2</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Find and remove duplicate files effortlessly.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="clearvpn">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">C</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://clearvpn.com/" target="_blank">ClearVPN</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Simple, effective VPN protection.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="1password">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">1</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://1password.com/" target="_blank">1Password</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Password management that actually works.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="bananabin">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">B</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://bananabin.app/" target="_blank">BananaBin</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Menu bar trash can that doesn't take itself seriously.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="vivid">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">V</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.getvivid.app/" target="_blank">Vivid</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Unlock full XDR brightness on your MacBook Pro.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="tot">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">T</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://tot.rocks/" target="_blank">Tot</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Seven tiny text documents in your menu bar.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="lm studio">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">L</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://lmstudio.ai/" target="_blank">LM Studio</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Run AI models locally without breaking your Mac.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="media mate">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">M</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://wouter01.github.io/MediaMate/" target="_blank">Media Mate</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Fresh visuals for Volume, Display and Keyboard Brightness controls.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="paprika 3">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">P</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.paprikaapp.com/" target="_blank">Paprika 3</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Recipe manager and meal planner that cooks don't hate.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="granola">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">G</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.granola.ai/" target="_blank">Granola</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">AI meeting notes that actually capture what matters.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="utilities" data-name="waterllama">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#14b8a6,#0891b2);">W</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://waterllama.app/" target="_blank">Waterllama</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Cute water intake reminders with a llama.</p>
+                        <span class="app-category-tag">Utilities</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="design" data-name="cleanshot x">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f59e0b,#f97316);">C</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://cleanshot.com/" target="_blank">CleanShot X</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Screenshots that don't look like I forgot to crop them.</p>
+                        <span class="app-category-tag">Design</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="design" data-name="pixelsnap 2">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f59e0b,#f97316);">P</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://getpixelsnap.com/" target="_blank">PixelSnap 2</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Measuring pixels like my life depends on it.</p>
+                        <span class="app-category-tag">Design</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="design" data-name="nitro pdf pro">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f59e0b,#f97316);">N</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.gonitro.com/" target="_blank">Nitro PDF Pro</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Professional PDF editing without Adobe pricing.</p>
+                        <span class="app-category-tag">Design</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="design" data-name="textsoap">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f59e0b,#f97316);">T</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.unmarked.com/textsoap/" target="_blank">TextSoap</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Clean up messy text formatting instantly.</p>
+                        <span class="app-category-tag">Design</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="menubar" data-name="dato">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">D</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://sindresorhus.com/dato" target="_blank">Dato</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">A menu bar calendar that doesn't look like it's from 2003.</p>
+                        <span class="app-category-tag">Menu Bar</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="menubar" data-name="menubarx">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">M</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://menubarx.app/" target="_blank">MenubarX</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">A powerful browser in your menu bar.</p>
+                        <span class="app-category-tag">Menu Bar</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="menubar" data-name="itsycal">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">I</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.mowglii.com/itsycal/" target="_blank">Itsycal</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Tiny menu bar calendar that just works.</p>
+                        <span class="app-category-tag">Menu Bar</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="menubar" data-name="sleeve">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">S</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://replay.software/sleeve" target="_blank">Sleeve</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Beautiful now playing display for your music.</p>
+                        <span class="app-category-tag">Menu Bar</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="weather" data-name="carrot weather">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#38bdf8,#0284c7);">C</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.meetcarrot.com/weather/" target="_blank">Carrot Weather</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Weather forecasts with snark and personality.</p>
+                        <span class="app-category-tag">Weather</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="weather" data-name="forecast bar">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#38bdf8,#0284c7);">F</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://forecastbar.com/" target="_blank">Forecast Bar</a></h3>
+                            <span class="app-pricing setapp">SetApp</span>
+                        </div>
+                        <p class="app-description">Weather info right in your menu bar.</p>
+                        <span class="app-category-tag">Weather</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="fun" data-name="snowy">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f43f5e,#f97316);">S</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://apps.apple.com/us/app/snowy/id1477706027" target="_blank">Snowy</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Christmas lights and snow for your Mac.</p>
+                        <span class="app-category-tag">Fun</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="fun" data-name="klack">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f43f5e,#f97316);">K</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://tryklack.com/" target="_blank">Klack</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Mechanical keyboard sounds for every keystroke.</p>
+                        <span class="app-category-tag">Fun</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="fun" data-name="typibara">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f43f5e,#f97316);">T</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.typibara.com/" target="_blank">Typibara</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Your new typing companion (literally a capybara).</p>
+                        <span class="app-category-tag">Fun</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="fun" data-name="runcat">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f43f5e,#f97316);">R</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://kyome.io/runcat/index.html?lang=en" target="_blank">RunCat</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">A cat that runs faster when your CPU is working harder.</p>
+                        <span class="app-category-tag">Fun</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="fun" data-name="googly eyes">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f43f5e,#f97316);">G</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://apps.apple.com/us/app/googly-eyes/id1484870396" target="_blank">Googly Eyes</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Your cursor gets googly eyes. That's it. Perfect.</p>
+                        <span class="app-category-tag">Fun</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="fun" data-name="poolsuite fm">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f43f5e,#f97316);">P</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://poolsuite.net/" target="_blank">PoolSuite FM</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Eternal summer vibes for your Mac.</p>
+                        <span class="app-category-tag">Fun</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="fun" data-name="incredibox">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f43f5e,#f97316);">I</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.incredibox.com/" target="_blank">Incredibox</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Make music like you know what you're doing.</p>
+                        <span class="app-category-tag">Fun</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="health" data-name="breathwrk">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#22c55e,#16a34a);">B</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.breathwrk.com/" target="_blank">Breathwrk</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Guided breathing exercises for stress relief.</p>
+                        <span class="app-category-tag">Health</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="health" data-name="look away">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#22c55e,#16a34a);">L</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://apps.apple.com/us/app/look-away-eye-care/id1464928801" target="_blank">Look Away</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">20-20-20 rule reminders to save your eyes.</p>
+                        <span class="app-category-tag">Health</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="health" data-name="trackweight">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#22c55e,#16a34a);">T</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://apps.apple.com/us/app/trackweight/id1501543582" target="_blank">TrackWeight</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Simple weight tracking without the judgment.</p>
+                        <span class="app-category-tag">Health</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="health" data-name="gymverse">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#22c55e,#16a34a);">G</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://gymverse.app/" target="_blank">Gymverse</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">AI-powered workout planning and tracking.</p>
+                        <span class="app-category-tag">Health</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="reading" data-name="readwise reader">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">R</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://readwise.io/read" target="_blank">Readwise Reader</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">The all-in-one reading app I've been waiting for.</p>
+                        <span class="app-category-tag">Reading</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="reading" data-name="kindle">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">K</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.amazon.com/kindle" target="_blank">Kindle</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Read your ebooks anywhere, sync everywhere.</p>
+                        <span class="app-category-tag">Reading</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="reading" data-name="flipboard">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">F</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://flipboard.com/" target="_blank">Flipboard</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Curated news and articles in a beautiful magazine layout.</p>
+                        <span class="app-category-tag">Reading</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="reading" data-name="blinkist">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">B</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.blinkist.com/" target="_blank">Blinkist</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">15-minute book summaries for busy people.</p>
+                        <span class="app-category-tag">Reading</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="reading" data-name="duolingo">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">D</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.duolingo.com/" target="_blank">Duolingo</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Language learning that doesn't feel like homework.</p>
+                        <span class="app-category-tag">Reading</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="reading" data-name="kinnu">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">K</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://kinnu.xyz/" target="_blank">Kinnu</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Learn something new every day with bite-sized lessons.</p>
+                        <span class="app-category-tag">Reading</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="reading" data-name="elevate">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">E</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://elevateapp.com/" target="_blank">Elevate</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Brain training games that actually feel helpful.</p>
+                        <span class="app-category-tag">Reading</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="reading" data-name="lumosity">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">L</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.lumosity.com/" target="_blank">Lumosity</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Scientifically-designed brain training exercises.</p>
+                        <span class="app-category-tag">Reading</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="travel" data-name="flighty">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#10b981,#0d9488);">F</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.flightyapp.com/" target="_blank">Flighty</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Flight tracking with personality and predictions.</p>
+                        <span class="app-category-tag">Travel</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="travel" data-name="hipcamp">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#10b981,#0d9488);">H</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.hipcamp.com/" target="_blank">Hipcamp</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Discover and book unique camping experiences.</p>
+                        <span class="app-category-tag">Travel</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="entertainment" data-name="spotify">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f97316,#dc2626);">S</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.spotify.com/" target="_blank">Spotify</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Music streaming that knows what you need before you do.</p>
+                        <span class="app-category-tag">Entertainment</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="entertainment" data-name="new york times games">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#f97316,#dc2626);">N</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.nytimes.com/games" target="_blank">New York Times Games</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">Wordle, Spelling Bee, Crossword, and other daily brain teasers.</p>
+                        <span class="app-category-tag">Entertainment</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="ios" data-name="appraven">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">A</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://appraven.net/" target="_blank">AppRaven</a></h3>
+                            <span class="app-pricing free">Free</span>
+                        </div>
+                        <p class="app-description">Track app prices and discover new iOS apps.</p>
+                        <span class="app-category-tag">iOS Apps</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="ios" data-name="forest">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">F</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://www.forestapp.cc/" target="_blank">Forest</a></h3>
+                            <span class="app-pricing paid">Paid</span>
+                        </div>
+                        <p class="app-description">Stay focused by growing virtual trees.</p>
+                        <span class="app-category-tag">iOS Apps</span>
+                    </div>
+                </div>
+                <div class="app-card" data-category="ios" data-name="day one">
+                    <div class="app-icon"><span class="icon-letter" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">D</span></div>
+                    <div class="app-info">
+                        <div class="app-header">
+                            <h3 class="app-title"><a href="https://dayoneapp.com/" target="_blank">Day One</a></h3>
+                            <span class="app-pricing subscription">Sub</span>
+                        </div>
+                        <p class="app-description">The journaling app that makes you want to journal.</p>
+                        <span class="app-category-tag">iOS Apps</span>
+                    </div>
+                </div>
+<!-- /INJECT:APPS_GRID -->
+            </div>
+
+            <div class="no-results" id="noResults" style="display:none;">
+                <h3>No apps found</h3>
+                <p>Try adjusting your search or filter.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>"I spend unreasonable amounts of time testing Mac apps, discovering hidden settings, and perfecting workflows so you can just read a blog post and move on with your life."</p>
+            <p>— The Mac Alchemist ☕</p>
+
+            <div class="social-links">
+                <a href="https://medium.com/@nshah130695" target="_blank">Medium Profile</a>
+                <a href="https://medium.com/the-mac-alchemist" target="_blank">The Mac Alchemist</a>
+                <a href="https://medium.com/macoclock" target="_blank">Mac O'Clock</a>
+            </div>
+
+            <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.7;">
+                Built with excessive attention to detail and a questionable amount of Coffee
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let currentCategory = 'all';
+
+        function filterByCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            filterApps();
+        }
+
+        function filterApps() {
+            const searchTerm = document.getElementById('appSearch').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.app-card');
+            let visible = 0;
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name') || '';
+                const cat  = card.getAttribute('data-category') || '';
+                const desc = (card.querySelector('.app-description') || {}).textContent?.toLowerCase() || '';
+
+                const matchSearch = !searchTerm || name.includes(searchTerm) || desc.includes(searchTerm);
+                const matchCat    = currentCategory === 'all' || cat === currentCategory;
+
+                if (matchSearch && matchCat) {
+                    card.classList.remove('hidden');
+                    visible++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('filterCount').textContent =
+                `Showing ${visible} ${visible === 1 ? 'app' : 'apps'}`;
+            document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        document.getElementById('appSearch').addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { this.value = ''; filterApps(); }
+        });
+    </script>
+
+</body>
+</html>

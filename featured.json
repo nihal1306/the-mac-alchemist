@@ -1,0 +1,34 @@
+{
+  "guides": [
+    {
+      "number": 1,
+      "title": "Transform Your Chaotic Downloads Folder Into a Self-Organizing System",
+      "url": "https://medium.com/macoclock/transform-your-chaotic-downloads-folder-into-a-self-organizing-system-d618c0232597",
+      "description": "Stop manually sorting your Downloads. Learn how to set up Folder Actions that automatically organize files by type."
+    },
+    {
+      "number": 2,
+      "title": "The macOS Automator Guide for People Who Hate Doing Things Twice",
+      "url": "https://medium.com/macoclock/the-macos-automator-guide-for-people-who-hate-doing-things-twice-4b0bcb82e1e9",
+      "description": "A complete guide to automating repetitive tasks without writing a single line of code."
+    },
+    {
+      "number": 3,
+      "title": "Mac Settings That Actually Improve Your Daily Workflow",
+      "url": "https://medium.com/the-mac-alchemist/mac-settings-that-actually-improve-your-daily-workflow-5d1be2470272",
+      "description": "The hidden macOS settings that make a real difference in how you use your Mac every day."
+    },
+    {
+      "number": 4,
+      "title": "Why Your Finder Folders Keep Getting Disorganized (And How to Fix It Forever)",
+      "url": "https://medium.com/the-mac-alchemist/why-your-finder-folders-keep-getting-disorganized-and-how-to-fix-it-forever-bc711dfc47c3",
+      "description": "Discover why macOS keeps changing your folder views and learn the permanent solution."
+    },
+    {
+      "number": 5,
+      "title": "Two iPhone Settings That Will Save You From My Fate",
+      "url": "https://medium.com/the-mac-alchemist/two-iphone-settings-that-will-save-you-from-my-fate-271ef7f725e0",
+      "description": "Two quick toggles that could save your sanity (and your data). Learn from my mistakes."
+    }
+  ]
+}
