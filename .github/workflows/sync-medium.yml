@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,12 +30,15 @@ jobs:
       - name: Build site
         run: python3 build.py
 
-      - name: Commit icon cache (if updated)
+      - name: Save icon cache to repo
+        continue-on-error: true
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
           git add icon_cache.json
-          git diff --staged --quiet || git commit -m "Update icon cache" && git push || true
+          git diff --staged --quiet || git commit -m "Update icon cache [$(date -u '+%Y-%m-%d')]"
+          git push || echo "Push skipped"
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
