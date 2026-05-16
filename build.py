@@ -263,9 +263,11 @@ def generate_apps_grid(apps: list, icons: dict) -> str:
     for app in apps:
         label, cls = PRICING_LABELS.get(app["pricing"], (app["pricing"].title(), app["pricing"]))
         icon_block = icon_html(app, icons.get(app["name"]))
+        app_url = app.get("url") or "#"
+        linked_icon = f'<a href="{app_url}" target="_blank" aria-label="{app["name"]}">{icon_block}</a>'
         cards.append(f"""\
                 <div class="app-card" data-category="{app['category']}" data-name="{app['name'].lower()}">
-                    {icon_block}
+                    {linked_icon}
                     <div class="app-info">
                         <div class="app-header">
                             <h3 class="app-title"><a href="{app.get('url','#') or '#'}" target="_blank">{app['name']}</a></h3>
