@@ -372,8 +372,8 @@ def build():
 
     if featured_posts:
         result = inject(result, "BLOG_POSTS", generate_blog_cards(featured_posts))
-    if all_posts:
-        result = inject(result, "ALL_BLOG_POSTS", generate_all_blog_posts(all_posts))
+    if all_posts and len(all_posts) > MAX_BLOG_POSTS:
+        result = inject(result, "ALL_BLOG_POSTS", generate_all_blog_posts(all_posts[MAX_BLOG_POSTS:]))
 
     result = inject(result, "APPS_GRID", generate_apps_grid(apps, icons))
     result = inject(result, "FILTER_BUTTONS", generate_filter_buttons(apps))
