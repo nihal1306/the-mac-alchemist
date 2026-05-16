@@ -563,12 +563,25 @@
         }
         .post-row:hover .post-row-arrow { opacity: 1; }
 
-        @media (max-width: 600px) {
-            .post-row {
-                grid-template-columns: 1fr;
-                gap: 0.4rem;
-            }
-            .post-row-arrow { display: none; }
+        /* Hamburger nav toggle — hidden on desktop */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 2px solid var(--charcoal);
+            font-size: 1.3rem;
+            padding: 0.35rem 0.75rem;
+            cursor: pointer;
+            font-family: var(--mono);
+            color: var(--charcoal);
+            line-height: 1;
+            align-self: flex-end;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
         }
 
         /* Footer */
@@ -612,16 +625,93 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive */
+        /* ── Responsive ── */
         @media (max-width: 768px) {
-            .corner-decor { width: 60px; height: 60px; }
-            .apps-section { margin-left: -1rem; margin-right: -1rem; }
-            nav { gap: 1rem; }
-            .logo { width: 60px; height: 60px; top: 15px; left: 15px; }
+
+            /* Corner decorations: hide on small screens */
+            .corner-decor { display: none; }
+
+            /* Logo: hide fixed logo on mobile — title is in the header */
+            .logo { display: none; }
+
+            /* Header */
+            header { padding: 2rem 1rem; }
             .subtitle { white-space: normal; }
+
+            /* Container padding */
+            .container { padding: 2.5rem 1rem; }
+
+            /* Nav: hamburger layout */
+            nav {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0.75rem 1rem;
+                gap: 0;
+            }
+            .nav-toggle { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 0;
+                margin-top: 0.5rem;
+            }
+            .nav-links.open { display: flex; }
+            nav a {
+                padding: 0.75rem 0.5rem;
+                border: none;
+                border-bottom: 1px solid rgba(74,74,74,0.2);
+                text-align: left;
+            }
+            nav a:last-child { border-bottom: none; }
+
+            /* About section */
+            .about-section {
+                padding: 2rem 1.25rem;
+                box-shadow: 5px 5px 0 var(--accent-teal);
+            }
+
+            /* Blog grid */
+            .blog-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+
+            /* Settings grid */
+            .settings-grid { grid-template-columns: 1fr; }
+
+            /* Apps section: remove negative margins that cause overflow */
+            .apps-section {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 3rem 1rem;
+            }
+
+            /* Apps grid */
             .apps-grid { grid-template-columns: 1fr; }
-            .category-filters { gap: 0.5rem; }
-            .filter-btn { font-size: 0.75rem; padding: 0.5rem 0.8rem; }
+
+            /* Filter buttons: horizontal scroll strip instead of wrapping rows */
+            .category-filters {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 0.75rem;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                gap: 0.5rem;
+            }
+            .category-filters::-webkit-scrollbar { display: none; }
+            .filter-btn {
+                white-space: nowrap;
+                flex-shrink: 0;
+                font-size: 0.75rem;
+                padding: 0.5rem 0.8rem;
+            }
+
+            /* All posts list */
+            .post-row {
+                grid-template-columns: 1fr;
+                gap: 0.3rem;
+                padding: 1rem;
+            }
+            .post-row:hover { padding-left: 1rem; }
+            .post-row-arrow { display: none; }
         }
     </style>
 </head>
@@ -643,11 +733,14 @@
 
     <!-- Navigation -->
     <nav>
-        <a href="#about">About the Lab</a>
-        <a href="#blog">Recent Experiments</a>
-        <a href="#all-posts">All Posts</a>
-        <a href="#settings">Essential Settings</a>
-        <a href="#apps">Curated Apps</a>
+        <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation">☰</button>
+        <div class="nav-links" id="navLinks">
+            <a href="#about" onclick="closeNav()">About the Lab</a>
+            <a href="#blog" onclick="closeNav()">Recent Experiments</a>
+            <a href="#all-posts" onclick="closeNav()">All Posts</a>
+            <a href="#settings" onclick="closeNav()">Essential Settings</a>
+            <a href="#apps" onclick="closeNav()">Curated Apps</a>
+        </div>
     </nav>
 
     <!-- Main Content -->
@@ -833,6 +926,14 @@
     </footer>
 
     <script>
+        /* Nav toggle */
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+        function closeNav() {
+            document.getElementById('navLinks').classList.remove('open');
+        }
+
         let currentCategory = 'all';
 
         function filterByCategory(category) {
