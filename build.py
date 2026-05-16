@@ -29,6 +29,21 @@ MAX_BLOG_POSTS = 6
 # Icon fetching
 # ─────────────────────────────────────────────
 
+def fetch_icon_url_by_id(app_store_id: int) -> str | None:
+    """Fetch icon directly by App Store ID — much more reliable than search."""
+    url = f"https://itunes.apple.com/lookup?id={app_store_id}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=12) as resp:
+            data = json.loads(resp.read())
+        results = data.get("results", [])
+        if results:
+            return results[0].get("artworkUrl512") or results[0].get("artworkUrl100")
+    except Exception as e:
+        print(f"  [icon] ID lookup {app_store_id} failed: {e}", file=sys.stderr)
+    return None
+
+
 def fetch_icon_url(app_name: str, search_term: str, is_ios: bool = False) -> str | None:
     """Fetch a high-res icon URL from the iTunes Search API."""
     term = search_term or app_name
@@ -92,10 +107,16 @@ def get_icons_for_apps(apps: list) -> dict:
 
     for app in apps:
         name = app["name"]
-        if name not in cache:
+        if name not in cache or cache.get(name) is None:
             print(f"  Fetching icon: {name}…")
-            url = fetch_icon_url(name, app.get("search_term", ""), app.get("is_ios", False))
-            cache[name] = url  # None is stored so we don't retry on every build
+            # Prefer App Store ID lookup (precise) over search (fuzzy)
+            if app.get("app_store_id"):
+                url = fetch_icon_url_by_id(app["app_store_id"])
+                if not url:
+                    url = fetch_icon_url(name, app.get("search_term", ""), app.get("is_ios", False))
+            else:
+                url = fetch_icon_url(name, app.get("search_term", ""), app.get("is_ios", False))
+            cache[name] = url
             updated = True
             time.sleep(0.3)
 

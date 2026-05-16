@@ -185,6 +185,7 @@
       "icon": "V",
       "description": "Unlock full XDR brightness on your MacBook Pro.",
       "search_term": "Vivid display brightness macbook",
+      "app_store_id": 1666052670,
       "is_ios": false
     },
     {
@@ -328,6 +329,7 @@
       "icon": "I",
       "description": "Tiny menu bar calendar that just works.",
       "search_term": "Itsycal calendar menu bar mac",
+      "app_store_id": 1264781621,
       "is_ios": false
     },
     {
@@ -493,7 +495,8 @@
       "icon": "R",
       "description": "The all-in-one reading app I've been waiting for.",
       "search_term": "Readwise Reader read later",
-      "is_ios": false
+      "app_store_id": 1567599538,
+      "is_ios": true
     },
     {
       "name": "Kindle",
@@ -515,6 +518,7 @@
       "icon": "F",
       "description": "Curated news and articles in a beautiful magazine layout.",
       "search_term": "Flipboard news magazine",
+      "app_store_id": 358801284,
       "is_ios": true
     },
     {
@@ -570,7 +574,8 @@
       "icon": "L",
       "description": "Scientifically-designed brain training exercises.",
       "search_term": "Lumosity brain training",
-      "is_ios": false
+      "app_store_id": 577232024,
+      "is_ios": true
     },
     {
       "name": "Flighty",
@@ -581,6 +586,7 @@
       "icon": "F",
       "description": "Flight tracking with personality and predictions.",
       "search_term": "Flighty flight tracker",
+      "app_store_id": 1358823008,
       "is_ios": true
     },
     {
@@ -636,6 +642,7 @@
       "icon": "F",
       "description": "Stay focused by growing virtual trees.",
       "search_term": "Forest focus app stay focused",
+      "app_store_id": 866450515,
       "is_ios": true
     },
     {
@@ -647,6 +654,7 @@
       "icon": "D",
       "description": "The journaling app that makes you want to journal.",
       "search_term": "Day One journal diary",
+      "app_store_id": 1055511498,
       "is_ios": false
     }
   ]
