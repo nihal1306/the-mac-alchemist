@@ -511,9 +511,9 @@
 
         .post-row {
             display: grid;
-            grid-template-columns: 120px 1fr auto;
+            grid-template-columns: 170px 1fr auto;
             align-items: center;
-            gap: 1.5rem;
+            gap: 2rem;
             padding: 1.25rem 1.5rem;
             border-bottom: 1px solid var(--light-gray);
             text-decoration: none;
@@ -531,13 +531,16 @@
             white-space: nowrap;
         }
 
-        .post-row-body {}
+        .post-row-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
 
         .post-row-title {
             font-family: var(--serif);
             font-size: 1.1rem;
             color: var(--charcoal);
-            margin-bottom: 0.25rem;
             line-height: 1.35;
             transition: color 0.2s ease;
         }
