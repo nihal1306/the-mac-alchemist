@@ -22,7 +22,8 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
 MEDIUM_FEED_URL = "https://medium.com/feed/the-mac-alchemist"
-MAX_BLOG_POSTS = 6
+MAX_BLOG_POSTS = 6       # cards shown in "Recent Experiments"
+MAX_ALL_POSTS  = 50      # rows shown in "All Posts" (RSS caps at ~10 items)
 
 
 # ─────────────────────────────────────────────
@@ -250,6 +251,21 @@ def generate_blog_cards(posts: list) -> str:
     return "\n".join(cards)
 
 
+def generate_all_blog_posts(posts: list) -> str:
+    rows = []
+    for post in posts:
+        rows.append(f"""\
+                <a class="post-row" href="{post['url']}" target="_blank">
+                    <span class="post-row-date">{post['date']}</span>
+                    <span class="post-row-body">
+                        <span class="post-row-title">{post['title']}</span>
+                        <span class="post-row-category">{post['category']}</span>
+                    </span>
+                    <span class="post-row-arrow">Read →</span>
+                </a>""")
+    return "\n".join(rows)
+
+
 PRICING_LABELS = {
     "free": ("Free", "free"),
     "paid": ("Paid", "paid"),
@@ -340,20 +356,24 @@ def build():
     print("\n[1/3] Fetching app icons…")
     icons = get_icons_for_apps(apps)
 
-    # Medium RSS
+    # Medium RSS — fetch all available posts, use first 6 for featured cards
     print("\n[2/3] Fetching Medium posts…")
-    posts = fetch_medium_posts(MEDIUM_FEED_URL)
-    if posts:
-        print(f"  ✓ Got {len(posts)} posts")
+    all_posts = fetch_medium_posts(MEDIUM_FEED_URL, max_posts=MAX_ALL_POSTS)
+    if all_posts:
+        featured_posts = all_posts[:MAX_BLOG_POSTS]
+        print(f"  ✓ Got {len(all_posts)} posts ({len(featured_posts)} featured)")
     else:
-        print("  ✗ Could not fetch posts — keeping existing blog section")
+        all_posts = featured_posts = None
+        print("  ✗ Could not fetch posts — keeping existing blog sections")
 
     # Build HTML
     print("\n[3/3] Generating index.html…")
     result = template
 
-    if posts:
-        result = inject(result, "BLOG_POSTS", generate_blog_cards(posts))
+    if featured_posts:
+        result = inject(result, "BLOG_POSTS", generate_blog_cards(featured_posts))
+    if all_posts:
+        result = inject(result, "ALL_BLOG_POSTS", generate_all_blog_posts(all_posts))
 
     result = inject(result, "APPS_GRID", generate_apps_grid(apps, icons))
     result = inject(result, "FILTER_BUTTONS", generate_filter_buttons(apps))
@@ -365,8 +385,8 @@ def build():
     print(f"\n✓ Built index.html")
     print(f"  • {len(apps)} apps")
     print(f"  • {sum(1 for v in icons.values() if v)} icons resolved")
-    if posts:
-        print(f"  • {len(posts)} blog posts")
+    if all_posts:
+        print(f"  • {len(all_posts)} blog posts ({len(featured_posts)} featured, {len(all_posts)} in full list)")
     print("═" * 50)
 
 

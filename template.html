@@ -504,6 +504,70 @@
         .no-results { text-align: center; padding: 4rem 2rem; color: var(--light-gray); }
         .no-results h3 { font-family: var(--serif); font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 1rem; }
 
+        /* All Posts Section */
+        .all-posts-section { margin-bottom: 4rem; }
+
+        .all-posts-list { display: flex; flex-direction: column; gap: 0; }
+
+        .post-row {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+        .post-row:first-child { border-top: 1px solid var(--light-gray); }
+        .post-row:hover { background: white; padding-left: 2rem; }
+        .post-row:hover .post-row-title { color: var(--accent-teal); }
+
+        .post-row-date {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--warm-gray);
+            white-space: nowrap;
+        }
+
+        .post-row-body {}
+
+        .post-row-title {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            margin-bottom: 0.25rem;
+            line-height: 1.35;
+            transition: color 0.2s ease;
+        }
+
+        .post-row-category {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .post-row-arrow {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .post-row:hover .post-row-arrow { opacity: 1; }
+
+        @media (max-width: 600px) {
+            .post-row {
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+            }
+            .post-row-arrow { display: none; }
+        }
+
         /* Footer */
         footer {
             background: var(--charcoal);
@@ -578,6 +642,7 @@
     <nav>
         <a href="#about">About the Lab</a>
         <a href="#blog">Recent Experiments</a>
+        <a href="#all-posts">All Posts</a>
         <a href="#settings">Essential Settings</a>
         <a href="#apps">Curated Apps</a>
     </nav>
@@ -653,6 +718,19 @@
                     <a href="https://medium.com/the-mac-alchemist/i-finally-tried-running-ai-on-my-laptop-and-didnt-break-anything-787063d05c9c" target="_blank" class="read-more">Read on Medium →</a>
                 </article>
 <!-- /INJECT:BLOG_POSTS -->
+            </div>
+        </section>
+
+        <!-- All Posts Section -->
+        <section id="all-posts" class="all-posts-section">
+            <div class="section-header">
+                <h2>All Posts</h2>
+                <p>Every article from The Mac Alchemist, newest first</p>
+            </div>
+
+            <div class="all-posts-list">
+<!-- INJECT:ALL_BLOG_POSTS -->
+<!-- /INJECT:ALL_BLOG_POSTS -->
             </div>
         </section>
 
